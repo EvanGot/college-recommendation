@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wzh.dao.SchoolMapper">
+  <resultMap id="BaseResultMap" type="com.wzh.model.School">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="zytype" jdbcType="VARCHAR" property="zytype" />
+    <result column="sctype" jdbcType="VARCHAR" property="sctype" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, address, time, type, zytype, sctype
+  </sql>
+  <select id="findAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from school
+    <where>
+      <if test="name != null and name != ''">
+        and name like '%${name}%'
+      </if>
+      <if test="address != null and address != ''">
+        and address like '%${address}%'
+      </if>
+      <if test="type != null and type != ''">
+        and type like '%${type}%'
+      </if>
+      <if test="zytype != null and zytype != ''">
+        and zytype like '%${zytype}%'
+      </if>
+      <if test="sctype != null and sctype != ''">
+        and sctype like '%${sctype}%'
+      </if>
+    </where>
+    order by time desc
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from school
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from school
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.wzh.model.School">
+    insert into school (id, name, address, 
+      time, type, zytype, 
+      sctype)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{time,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}, #{zytype,jdbcType=VARCHAR}, 
+      #{sctype,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wzh.model.School">
+    insert into school
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="zytype != null">
+        zytype,
+      </if>
+      <if test="sctype != null">
+        sctype,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="zytype != null">
+        #{zytype,jdbcType=VARCHAR},
+      </if>
+      <if test="sctype != null">
+        #{sctype,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wzh.model.School">
+    update school
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="zytype != null">
+        zytype = #{zytype,jdbcType=VARCHAR},
+      </if>
+      <if test="sctype != null">
+        sctype = #{sctype,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wzh.model.School">
+    update school
+    set name = #{name,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=VARCHAR},
+      zytype = #{zytype,jdbcType=VARCHAR},
+      sctype = #{sctype,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

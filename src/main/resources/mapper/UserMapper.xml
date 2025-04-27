@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wzh.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.wzh.model.User">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="pass" jdbcType="VARCHAR" property="pass" />
+    <result column="head" jdbcType="VARCHAR" property="head" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="subject1" jdbcType="VARCHAR" property="subject1" />
+    <result column="subject1score" jdbcType="VARCHAR" property="subject1score" />
+    <result column="subject2" jdbcType="VARCHAR" property="subject2" />
+    <result column="subject2score" jdbcType="VARCHAR" property="subject2score" />
+    <result column="subject3" jdbcType="VARCHAR" property="subject3" />
+    <result column="subject3score" jdbcType="VARCHAR" property="subject3score" />
+    <result column="chinese" jdbcType="VARCHAR" property="chinese" />
+    <result column="math" jdbcType="VARCHAR" property="math" />
+    <result column="english" jdbcType="VARCHAR" property="english" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, username, pass, head, tel, nickname, time, type, subject1, subject1score, subject2, 
+    subject2score, subject3, subject3score, chinese, math, english
+  </sql>
+  <select id="getByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from user where username = #{username} and type = #{type}
+  </select>
+  <select id="login" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from user where username = #{username}
+  </select>
+
+  <select id="findAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from
+    user
+    <where>
+      <if test="nickname != null and nickname != ''">
+        and nickname like '%${nickname}%'
+      </if>
+        <if test="type != null and type != ''">
+            and type = #{type,jdbcType=VARCHAR}
+        </if>
+    </where>
+    order by time desc
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from user
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.wzh.model.User">
+    insert into user (id, username, pass, 
+      head, tel, nickname, 
+      time, type, subject1, 
+      subject1score, subject2, subject2score, 
+      subject3, subject3score, chinese, 
+      math, english)
+    values (#{id,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{pass,jdbcType=VARCHAR}, 
+      #{head,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{time,jdbcType=TIMESTAMP}, #{type,jdbcType=VARCHAR}, #{subject1,jdbcType=VARCHAR}, 
+      #{subject1score,jdbcType=VARCHAR}, #{subject2,jdbcType=VARCHAR}, #{subject2score,jdbcType=VARCHAR}, 
+      #{subject3,jdbcType=VARCHAR}, #{subject3score,jdbcType=VARCHAR}, #{chinese,jdbcType=VARCHAR}, 
+      #{math,jdbcType=VARCHAR}, #{english,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wzh.model.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="pass != null">
+        pass,
+      </if>
+      <if test="head != null">
+        head,
+      </if>
+      <if test="tel != null">
+        tel,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="subject1 != null">
+        subject1,
+      </if>
+      <if test="subject1score != null">
+        subject1score,
+      </if>
+      <if test="subject2 != null">
+        subject2,
+      </if>
+      <if test="subject2score != null">
+        subject2score,
+      </if>
+      <if test="subject3 != null">
+        subject3,
+      </if>
+      <if test="subject3score != null">
+        subject3score,
+      </if>
+      <if test="chinese != null">
+        chinese,
+      </if>
+      <if test="math != null">
+        math,
+      </if>
+      <if test="english != null">
+        english,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="pass != null">
+        #{pass,jdbcType=VARCHAR},
+      </if>
+      <if test="head != null">
+        #{head,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="subject1 != null">
+        #{subject1,jdbcType=VARCHAR},
+      </if>
+      <if test="subject1score != null">
+        #{subject1score,jdbcType=VARCHAR},
+      </if>
+      <if test="subject2 != null">
+        #{subject2,jdbcType=VARCHAR},
+      </if>
+      <if test="subject2score != null">
+        #{subject2score,jdbcType=VARCHAR},
+      </if>
+      <if test="subject3 != null">
+        #{subject3,jdbcType=VARCHAR},
+      </if>
+      <if test="subject3score != null">
+        #{subject3score,jdbcType=VARCHAR},
+      </if>
+      <if test="chinese != null">
+        #{chinese,jdbcType=VARCHAR},
+      </if>
+      <if test="math != null">
+        #{math,jdbcType=VARCHAR},
+      </if>
+      <if test="english != null">
+        #{english,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wzh.model.User">
+    update user
+    <set>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="pass != null">
+        pass = #{pass,jdbcType=VARCHAR},
+      </if>
+      <if test="head != null">
+        head = #{head,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="subject1 != null">
+        subject1 = #{subject1,jdbcType=VARCHAR},
+      </if>
+      <if test="subject1score != null">
+        subject1score = #{subject1score,jdbcType=VARCHAR},
+      </if>
+      <if test="subject2 != null">
+        subject2 = #{subject2,jdbcType=VARCHAR},
+      </if>
+      <if test="subject2score != null">
+        subject2score = #{subject2score,jdbcType=VARCHAR},
+      </if>
+      <if test="subject3 != null">
+        subject3 = #{subject3,jdbcType=VARCHAR},
+      </if>
+      <if test="subject3score != null">
+        subject3score = #{subject3score,jdbcType=VARCHAR},
+      </if>
+      <if test="chinese != null">
+        chinese = #{chinese,jdbcType=VARCHAR},
+      </if>
+      <if test="math != null">
+        math = #{math,jdbcType=VARCHAR},
+      </if>
+      <if test="english != null">
+        english = #{english,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wzh.model.User">
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+      pass = #{pass,jdbcType=VARCHAR},
+      head = #{head,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      type = #{type,jdbcType=VARCHAR},
+      subject1 = #{subject1,jdbcType=VARCHAR},
+      subject1score = #{subject1score,jdbcType=VARCHAR},
+      subject2 = #{subject2,jdbcType=VARCHAR},
+      subject2score = #{subject2score,jdbcType=VARCHAR},
+      subject3 = #{subject3,jdbcType=VARCHAR},
+      subject3score = #{subject3score,jdbcType=VARCHAR},
+      chinese = #{chinese,jdbcType=VARCHAR},
+      math = #{math,jdbcType=VARCHAR},
+      english = #{english,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

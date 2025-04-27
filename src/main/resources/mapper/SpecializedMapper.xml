@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wzh.dao.SpecializedMapper">
+  <resultMap id="BaseResultMap" type="com.wzh.model.Specialized">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="tid" jdbcType="VARCHAR" property="tid" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="score" jdbcType="VARCHAR" property="score" />
+    <result column="year" jdbcType="VARCHAR" property="year" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, tid, name, time, score, year
+  </sql>
+  <select id="findrecom" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT x.name as sname,x.address,x.type,x.zytype,x.sctype,s.* FROM specialized s
+    LEFT JOIN school x on x.id = s.tid
+    <where>
+      <if test="name != null and name != ''">
+        and s.name in (${name})
+      </if>
+      <if test="address != null and address != ''">
+        and x.address like '%${address}%'
+      </if>
+      <if test="score != null and score != ''">
+        and s.score &lt;=  #{score,jdbcType=VARCHAR}
+      </if>
+    </where>
+    GROUP BY x.name,name ORDER BY score desc
+  </select>
+  <select id="findgroup" parameterType="java.lang.String" resultMap="BaseResultMap">
+   SELECT * FROM specialized GROUP BY name
+  </select>
+  <select id="findAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from specialized
+    <where>
+      <if test="tid != null and tid != ''">
+        and tid = #{tid,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null and name != ''">
+        and name like '%${name}%'
+      </if>
+      <if test="year != null and year != ''">
+        and year like '%${year}%'
+      </if>
+    </where>
+    order by time desc
+  </select>
+  <select id="findeact" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from specialized
+    <where>
+      <if test="tid != null and tid != ''">
+        and tid = #{tid,jdbcType=VARCHAR}
+      </if>
+      <if test="name != null and name != ''">
+        and name like '%${name}%'
+      </if>
+      <if test="year != null and year != ''">
+        and year like '%${year}%'
+      </if>
+    </where>
+    ORDER BY  `year`
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from specialized
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from specialized
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.wzh.model.Specialized">
+    insert into specialized (id, tid, name, 
+      time, score, year
+      )
+    values (#{id,jdbcType=VARCHAR}, #{tid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{time,jdbcType=TIMESTAMP}, #{score,jdbcType=VARCHAR}, #{year,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wzh.model.Specialized">
+    insert into specialized
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="tid != null">
+        tid,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="year != null">
+        year,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="tid != null">
+        #{tid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wzh.model.Specialized">
+    update specialized
+    <set>
+      <if test="tid != null">
+        tid = #{tid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null">
+        year = #{year,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wzh.model.Specialized">
+    update specialized
+    set tid = #{tid,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      score = #{score,jdbcType=VARCHAR},
+      year = #{year,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+
+</mapper>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wzh.dao.ScMapper">
+  <resultMap id="BaseResultMap" type="com.wzh.model.Sc">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="uid" jdbcType="VARCHAR" property="uid" />
+    <result column="tid" jdbcType="VARCHAR" property="tid" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="school" jdbcType="VARCHAR" property="school" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="score" jdbcType="VARCHAR" property="score" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, uid, tid, time, school, name, score
+  </sql>
+  <select id="check" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from sc where uid = #{uid} and tid= #{tid}
+  </select>
+  <select id="findAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sc
+    <where>
+      <if test="school != null and school != ''">
+        and school like '%${school}%'
+      </if>
+      <if test="uid != null and uid != ''">
+        and uid = #{uid,jdbcType=VARCHAR}
+      </if>
+
+    </where>
+    order by time desc
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sc
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sc
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.wzh.model.Sc">
+    insert into sc (id, uid, tid,
+      time, school, name,
+      score)
+    values (#{id,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, #{tid,jdbcType=VARCHAR},
+      #{time,jdbcType=TIMESTAMP}, #{school,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+      #{score,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wzh.model.Sc">
+    insert into sc
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="tid != null">
+        tid,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="school != null">
+        school,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="tid != null">
+        #{tid,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="school != null">
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wzh.model.Sc">
+    update sc
+    <set>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="tid != null">
+        tid = #{tid,jdbcType=VARCHAR},
+      </if>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="school != null">
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wzh.model.Sc">
+    update sc
+    set uid = #{uid,jdbcType=VARCHAR},
+      tid = #{tid,jdbcType=VARCHAR},
+      time = #{time,jdbcType=TIMESTAMP},
+      school = #{school,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      score = #{score,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
